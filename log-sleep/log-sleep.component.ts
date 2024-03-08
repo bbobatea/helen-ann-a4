@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
+import { SleepService } from '../services/sleep.service';
 
 @Component({
   selector: 'app-log-sleep',
@@ -14,7 +15,7 @@ export class LogSleepComponent implements OnInit {
   diff: string | null = null;
   isStartTimeSet: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private sleepService: SleepService) { }
 
   ngOnInit() {}
 
@@ -27,27 +28,28 @@ export class LogSleepComponent implements OnInit {
   updateEndTime() {
     this.endTime = new Date();
     this.isStartTimeSet = false;
-    console.log("false: ", this.endTime);
-  }
-
-  OvernightSleep() {
+    console.log("end: ", this.endTime);
     if (this.startTime && this.endTime) {
       // Create an instance of OvernightSleepData using start and end times
       this.overnightSleepData = new OvernightSleepData(this.startTime, this.endTime);
-      console.log("id: ", this.overnightSleepData.id);
-      console.log('Overnight Sleep Data:', this.overnightSleepData);
+      // Log the data to sleep service data saver
+      this.sleepService.logOvernightData(this.overnightSleepData);
+      const allOvernightData = this.sleepService.getOvernightData();
+      // print out the data using a getter method
+      console.log("overnight data: ", allOvernightData);
     } else {
       console.log('Please specify both start and end times.');
     }
   }
 
   totalHours(): string {
+    // the total hours slept using math to calculate the difference
     if (this.startTime && this.endTime) {
       var sleepStart_ms = this.startTime.getTime();
       var sleepEnd_ms = this.endTime.getTime();
       var difference_ms = sleepEnd_ms - sleepStart_ms;
       this.diff = Math.floor(difference_ms / (1000*60*60)) + " hours, " + Math.floor(difference_ms / (1000*60) % 60) + " minutes.";
-      console.log("summary: ", this.diff);
+      console.log("hours: ", this.diff);
       return this.diff;
     } else {
       return '';
