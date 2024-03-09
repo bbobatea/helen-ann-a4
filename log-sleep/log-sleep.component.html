@@ -1,61 +1,72 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Sleep Tracker Log Sleep
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content [fullscreen]="true">
-  <ion-button *ngIf="!isStartTimeSet" (click)="updateStartTime()">Start</ion-button>
-  <ion-button *ngIf="isStartTimeSet" (click)="updateEndTime()">End</ion-button>
-  <ion-button (click)="totalHours()">Amount of Hours</ion-button>
-  <ion-header collapse="condense">
+<body>
+  <ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-title size="large">Sleep Tracker</ion-title>
+      <ion-title>
+        Log Sleep
+      </ion-title>
     </ion-toolbar>
   </ion-header>
-  <div id="container">
-    <h1> Welcome! Start logging sleep now! </h1>
-  </div>
+  <ion-content [fullscreen]="true">
+    <div id="sleep-scale-button-container">
+      <div id="sleepiness-scale-container">
+        <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="1" [max]="7" [(ngModel)]="loggedMood">
+          <ion-icon slot="start" name="happy-outline" class="custom-ion-icon"></ion-icon>
+          <ion-icon slot="end" name="sad-outline" class="custom-ion-icon"></ion-icon>
+        </ion-range>
+      </div>
+    
+      <ion-button (click)="saveLoggedMood()" class="custom-ion-button">Log Mood</ion-button>
+    </div>
+    <div id="sleep-buttons-container">
+      <ion-button *ngIf="!isStartTimeSet" (click)="updateStartTime()">Start</ion-button>
+      <ion-button *ngIf="isStartTimeSet" (click)="updateEndTime()">End</ion-button>
+      <ion-button (click)="totalHours()">Amount of Hours</ion-button>
+    </div>
+    <div id="container">
+      <h1> Good night, </h1>
+      <h3> user </h3>
+    </div>
+    
   
-  <div id="footer-container" class="ion-text-center">
-    <ion-footer>
-      <ion-toolbar full>
-          <ion-buttons slot="start">
-            <ion-button (click)="goToHome()">
-              <ion-icon name="home"></ion-icon>
-               Home
-            </ion-button>
-          </ion-buttons>
-      
-          <ion-buttons slot="start">
-            <ion-button (click)="logSleep()">
-              <ion-icon name="bed"></ion-icon>
-               Log Sleep
-            </ion-button>
-          </ion-buttons>
-      
-          <ion-buttons slot="start">
-            <ion-button (click)="viewData()">
-              <ion-icon name="stats-chart"></ion-icon>
-               View Data
-            </ion-button>
-          </ion-buttons>
-      
-          <ion-buttons slot="start">
-            <ion-button (click)="goToSettings()">
-              <ion-icon name="settings"></ion-icon>
-               Settings
-            </ion-button>
-          </ion-buttons>
-
-          <ion-buttons slot="start">
-            <ion-button (click)="goToGoals()">
-              <ion-icon name="star"></ion-icon>
-               Goals
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-footer>
-  </div>
-</ion-content>
+    <div id="footer-container" class="ion-text-center">
+      <ion-footer>
+        <ion-toolbar full>
+            <ion-buttons slot="start">
+              <ion-button (click)="goToHome()">
+                <ion-icon name="home"></ion-icon>
+                 Home
+              </ion-button>
+            </ion-buttons>
+        
+            <ion-buttons slot="start">
+              <ion-button (click)="logSleep()">
+                <ion-icon name="bed"></ion-icon>
+                 Log Sleep
+              </ion-button>
+            </ion-buttons>
+        
+            <ion-buttons slot="start">
+              <ion-button (click)="viewData()">
+                <ion-icon name="stats-chart"></ion-icon>
+                 View Data
+              </ion-button>
+            </ion-buttons>
+        
+            <ion-buttons slot="start">
+              <ion-button (click)="goToSettings()">
+                <ion-icon name="settings"></ion-icon>
+                 Settings
+              </ion-button>
+            </ion-buttons>
+  
+            <ion-buttons slot="start">
+              <ion-button (click)="goToGoals()">
+                <ion-icon name="star"></ion-icon>
+                 Goals
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-footer>
+    </div>
+  </ion-content>
+</body>
