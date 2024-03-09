@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
+import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 import { SleepService } from '../services/sleep.service';
 
 @Component({
@@ -14,6 +15,8 @@ export class LogSleepComponent implements OnInit {
   overnightSleepData: OvernightSleepData | null = null;
   diff: string | null = null;
   isStartTimeSet: boolean = false;
+  loggedMood: number = 1;
+  stanfordSleepiness: StanfordSleepinessData | null = null;
 
   constructor(private router: Router, private sleepService: SleepService) { }
 
@@ -43,17 +46,22 @@ export class LogSleepComponent implements OnInit {
   }
 
   totalHours(): string {
-    // the total hours slept using math to calculate the difference
     if (this.startTime && this.endTime) {
       var sleepStart_ms = this.startTime.getTime();
       var sleepEnd_ms = this.endTime.getTime();
       var difference_ms = sleepEnd_ms - sleepStart_ms;
       this.diff = Math.floor(difference_ms / (1000*60*60)) + " hours, " + Math.floor(difference_ms / (1000*60) % 60) + " minutes.";
-      console.log("hours: ", this.diff);
+      console.log("summary: ", this.diff);
       return this.diff;
     } else {
       return '';
     }
+  }
+
+  saveLoggedMood() {
+    console.log("mood", this.loggedMood);
+    this.stanfordSleepiness = new StanfordSleepinessData(this.loggedMood);
+    console.log("objectt", this.stanfordSleepiness);
   }
 
 	goToHome() {
