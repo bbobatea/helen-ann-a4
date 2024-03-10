@@ -62,6 +62,9 @@ export class LogSleepComponent implements OnInit {
     console.log("mood", this.loggedMood);
     this.stanfordSleepiness = new StanfordSleepinessData(this.loggedMood);
     console.log("objectt", this.stanfordSleepiness);
+    this.sleepService.logSleepinessData(this.stanfordSleepiness);
+    const sleep = this.sleepService.getSleepinessData();
+    console.log(sleep, "sleep");
   }
 
 	goToHome() {
