@@ -57,10 +57,11 @@ export class LogSleepComponent implements OnInit {
       try {
         const existingData = await Preferences.get({ key: this.username });
         console.log("existing data: ", existingData);
-        let newData = [];
+        let newData: OvernightSleepData[] = [];
         if (existingData.value) {
-          // Parse the existing sleep data
-          newData = JSON.parse(existingData.value);
+          newData = JSON.parse(existingData.value).map((item: any) => {
+            return new OvernightSleepData(new Date(item.sleepStart), new Date(item.sleepEnd));
+          });
         }
         console.log("overnight data: ", this.overnightSleepData)
         newData.push(this.overnightSleepData);
@@ -70,6 +71,7 @@ export class LogSleepComponent implements OnInit {
           value: JSON.stringify(newData),
         });
         console.log('Sleep data stored successfully');
+
       } catch (error) {
         console.error('Error storing sleep data:', error);
       }
@@ -82,7 +84,9 @@ export class LogSleepComponent implements OnInit {
     try {
       const { value } = await Preferences.get({ key: this.username });
       if (value) {
-        this.overnightSleepData = JSON.parse(value);
+        this.overnightSleepData = JSON.parse(value).map((item: any) => {
+          return new OvernightSleepData(new Date(item.sleepStart), new Date(item.sleepEnd));
+          });
         console.log('Retrieved sleep data:', this.overnightSleepData);
       } else {
         console.log('No sleep data found in storage');
