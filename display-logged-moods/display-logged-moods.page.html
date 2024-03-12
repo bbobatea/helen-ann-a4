@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/data-view-component"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Logged Moods</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <div *ngIf="stanfordSleepinessList.length == 0">
+      <p> Nothing logged! </p>
+  </div>
+  <div *ngIf="stanfordSleepinessList">
+    <!-- Loop through stanfordSleepinessList and display its items -->
+    <ion-list [inset]="true">
+      <ion-item *ngFor="let item of stanfordSleepinessList">
+        <!-- Display item properties here -->
+        <div>{{ item.loggedValue }} </div>
+        <div>  at {{ formatDate(item.loggedAt) }} </div>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
