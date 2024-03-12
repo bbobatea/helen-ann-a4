@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 import { SleepService } from '../services/sleep.service';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-log-sleep',
@@ -17,31 +18,77 @@ export class LogSleepComponent implements OnInit {
   isStartTimeSet: boolean = false;
   loggedMood: number = 1;
   stanfordSleepiness: StanfordSleepinessData | null = null;
+  username: string = '';
 
   constructor(private router: Router, private sleepService: SleepService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.retrieveUsername();
+  }
 
+  
   updateStartTime() {
     this.startTime = new Date();
     this.isStartTimeSet = true;
     console.log("start: ", this.startTime);
   }
 
-  updateEndTime() {
+  async retrieveUsername() {
+    try {
+      const { value } = await Preferences.get({ key: 'username' });
+      if (value) {
+        this.username = value + " data";
+        console.log("this.username: ", this.username);
+      } else {
+        console.log('No username found in storage');
+      }
+    } catch (error) {
+      console.error('Error retrieving username:', error);
+    }
+  }
+
+  async updateEndTime() {
     this.endTime = new Date();
     this.isStartTimeSet = false;
     console.log("end: ", this.endTime);
     if (this.startTime && this.endTime) {
       // Create an instance of OvernightSleepData using start and end times
       this.overnightSleepData = new OvernightSleepData(this.startTime, this.endTime);
-      // Log the data to sleep service data saver
-      this.sleepService.logOvernightData(this.overnightSleepData);
-      const allOvernightData = this.sleepService.getOvernightData();
-      // print out the data using a getter method
-      console.log("overnight data: ", allOvernightData);
+      try {
+        const existingData = await Preferences.get({ key: this.username });
+        console.log("existing data: ", existingData);
+        let newData = [];
+        if (existingData.value) {
+          // Parse the existing sleep data
+          newData = JSON.parse(existingData.value);
+        }
+        console.log("overnight data: ", this.overnightSleepData)
+        newData.push(this.overnightSleepData);
+        console.log("new data: ", newData);
+        await Preferences.set({
+          key: this.username,
+          value: JSON.stringify(newData),
+        });
+        console.log('Sleep data stored successfully');
+      } catch (error) {
+        console.error('Error storing sleep data:', error);
+      }
     } else {
       console.log('Please specify both start and end times.');
+    }
+  }
+
+  async retrieveSleepData() {
+    try {
+      const { value } = await Preferences.get({ key: this.username });
+      if (value) {
+        this.overnightSleepData = JSON.parse(value);
+        console.log('Retrieved sleep data:', this.overnightSleepData);
+      } else {
+        console.log('No sleep data found in storage');
+      }
+    } catch (error) {
+      console.error('Error retrieving sleep data:', error);
     }
   }
 
