@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" scroll-y="true">
+<ion-content [fullscreen]="true">
   <ion-card *ngFor="let data of this.overnightData.slice().reverse()">
     <ion-card-header>
       <ion-card-title>{{ data?.dateString() }}</ion-card-title>
