@@ -7,16 +7,30 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card *ngFor="let data of this.overnightData">
-    <ion-card-header>
-      <ion-card-title>{{ data.dateString() }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <div>Time slept: {{ data.getSleepStart() }}</div>
-      <div>Time woke: {{ data.getSleepEnd() }}</div>
-      <div>Total sleep: {{ data.summaryString() }}</div>
-    </ion-card-content>
-  </ion-card>
+  <ion-list>
+    <ion-item-sliding *ngFor="let data of this.overnightData.slice().reverse()">
+      <ion-item>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ data?.dateString() }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div>Time slept: {{ data?.getSleepStart() }}</div>
+            <div>Time woke: {{ data?.getSleepEnd() }}</div>
+            <div>Total sleep: {{ data?.summaryString() }}</div>
+          </ion-card-content>
+
+          <ion-button fill="clear" (click)="showLoggedMoods(data)">Logged Moods</ion-button>
+        </ion-card>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" expandable="true" (click)="deleteItem(data)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
   
   <div id="footer-container" class="ion-text-center">
     <ion-footer>
