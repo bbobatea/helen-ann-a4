@@ -4,6 +4,7 @@ import { SleepService } from '../services/sleep.service';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 import { SleepData } from '../data/sleep-data';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-data-view',
@@ -14,15 +15,37 @@ export class DataViewComponent  implements OnInit {
 	overnightData: OvernightSleepData[] = [];
 	sleepyData: StanfordSleepinessData[] = [];
 	sleepData: SleepData[] = [];
+	username: string = '';
 
   constructor(private router: Router, private sleepService: SleepService) { }
 
-  ngOnInit() {
-	this.updateData();
+  async ngOnInit() {
+	await this.retrieveUsername();
+		this.updateData();
   }
 
-  updateData() {
-	this.overnightData = this.sleepService.getOvernightData();
+
+  async retrieveUsername() {
+    try {
+      const { value } = await Preferences.get({ key: 'username' });
+      if (value) {
+        this.username = value + " data";
+        console.log("this.username: ", this.username);
+      } else {
+        console.log('No username found in storage');
+      }
+    } catch (error) {
+      console.error('Error retrieving username:', error);
+    }
+  }
+  
+  async updateData() {
+	const { value } = await Preferences.get({ key: this.username });
+	if (value) {
+	  this.overnightData = JSON.parse(value).map((item: any) => {
+		return new OvernightSleepData(new Date(item.sleepStart), new Date(item.sleepEnd));
+	  });
+	}
 	console.log("h", this.overnightData);
 	this.sleepyData = this.sleepService.getSleepinessData();
 	console.log("a", this.sleepyData);
