@@ -21,6 +21,7 @@
       <ion-button *ngIf="!isStartTimeSet" (click)="updateStartTime()">Start</ion-button>
       <ion-button *ngIf="isStartTimeSet" (click)="updateEndTime()">End</ion-button>
       <ion-button (click)="totalHours()">Amount of Hours</ion-button>
+      <ion-button (click)="retrieveSleepData()">Get data</ion-button>
     </div>
     <div id="container">
       <h1> Good night, </h1>
