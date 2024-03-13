@@ -37,7 +37,7 @@ export class LogSleepComponent implements OnInit {
     try {
       const { value } = await Preferences.get({ key: 'username' });
       if (value) {
-        this.username = value + " data";
+        this.username = value;
         console.log("this.username: ", this.username);
       } else {
         console.log('No username found in storage');
@@ -50,12 +50,17 @@ export class LogSleepComponent implements OnInit {
   async updateEndTime() {
     this.endTime = new Date();
     this.isStartTimeSet = false;
-    console.log("end: ", this.endTime);
+    this.logSleepData();
+    this.saveLoggedMood();
+
+  }
+
+  async logSleepData() {
     if (this.startTime && this.endTime) {
       // Create an instance of OvernightSleepData using start and end times
       this.overnightSleepData = new OvernightSleepData(this.startTime, this.endTime);
       try {
-        const existingData = await Preferences.get({ key: this.username });
+        const existingData = await Preferences.get({ key: this.username + " data"});
         console.log("existing data: ", existingData);
         let newData: OvernightSleepData[] = [];
         if (existingData.value) {
@@ -67,11 +72,10 @@ export class LogSleepComponent implements OnInit {
         newData.push(this.overnightSleepData);
         console.log("new data: ", newData);
         await Preferences.set({
-          key: this.username,
+          key: this.username + " data",
           value: JSON.stringify(newData),
         });
         console.log('Sleep data stored successfully');
-
       } catch (error) {
         console.error('Error storing sleep data:', error);
       }
@@ -82,7 +86,7 @@ export class LogSleepComponent implements OnInit {
 
   async retrieveSleepData() {
     try {
-      const { value } = await Preferences.get({ key: this.username });
+      const { value } = await Preferences.get({ key: this.username + " data" });
       if (value) {
         this.overnightSleepData = JSON.parse(value).map((item: any) => {
           return new OvernightSleepData(new Date(item.sleepStart), new Date(item.sleepEnd));
@@ -109,32 +113,53 @@ export class LogSleepComponent implements OnInit {
     }
   }
 
-  saveLoggedMood() {
+  async saveLoggedMood() {
     console.log("mood", this.loggedMood);
     this.stanfordSleepiness = new StanfordSleepinessData(this.loggedMood);
-    console.log("objectt", this.stanfordSleepiness);
-    this.sleepService.logSleepinessData(this.stanfordSleepiness);
-    const sleep = this.sleepService.getSleepinessData();
-    console.log(sleep, "sleep");
+    try {
+      const existingData = await Preferences.get({ key: this.username + "_loggedMood"});
+      console.log("existing data: ", existingData);
+      let newMoodData: StanfordSleepinessData[] = [];
+      if (existingData.value) {
+        newMoodData = JSON.parse(existingData.value).map((item: any) => {
+          return new StanfordSleepinessData(item.loggedValue, new Date(item.loggedAt));
+        });
+      }
+      newMoodData.push(this.stanfordSleepiness);
+      console.log("updated mood data: ", newMoodData);
+      await Preferences.set({ key: this.username + '_loggedMood', value: JSON.stringify(newMoodData) });
+      console.log('Logged mood saved');
+      
+      // Log retrieved mood data after saving
+      const { value } = await Preferences.get({ key: this.username + "_loggedMood" });
+      if (value) {
+        const retrievedMood = JSON.parse(value);
+        console.log('Retrieved mood:', retrievedMood);
+      } else {
+        console.log('No mood data found in storage');
+      }
+    } catch (error) {
+      console.error('Error saving logged mood: ', error);
+    }
   }
 
 	goToHome() {
 		this.router.navigate(['/home']);
 	}
-
+	
 	logSleep() {
 	this.router.navigate(['/log-sleep-component']);
 	const currentDateTime = new Date();
 	}
-
+	
 	viewData() {
 		this.router.navigate(['/data-view-component']);
 	}
-
+	
 	goToSettings() {
 		this.router.navigate(['/settings-component']);
 	}
-
+	
 	goToGoals() {
 		this.router.navigate(['/sleep-goals-component']);
 	}
