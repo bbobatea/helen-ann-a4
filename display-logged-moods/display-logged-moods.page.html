@@ -8,17 +8,63 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <div *ngIf="stanfordSleepinessList.length == 0">
+  <div *ngIf="sleepyData.length == 0">
       <p> Nothing logged! </p>
   </div>
-  <div *ngIf="stanfordSleepinessList">
-    <!-- Loop through stanfordSleepinessList and display its items -->
-    <ion-list [inset]="true">
-      <ion-item *ngFor="let item of stanfordSleepinessList">
-        <!-- Display item properties here -->
-        <div>{{ item.loggedValue }} </div>
-        <div>  at {{ formatDate(item.loggedAt) }} </div>
-      </ion-item>
+    <ion-list>
+      <ion-item-sliding *ngFor="let item of sleepyData">
+        <ion-item>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{ formatDate(item.loggedAt) }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div>Mood: {{ item.summaryString() }}</div>
+            </ion-card-content>
+          </ion-card>
+        </ion-item>
+      </ion-item-sliding>
     </ion-list>
-  </div>
-</ion-content>
+  
+    
+    <div id="footer-container" class="ion-text-center">
+      <ion-footer>
+        <ion-toolbar full>
+          <ion-buttons slot="start">
+            <ion-button (click)="goToHome()">
+              <ion-icon name="home"></ion-icon>
+              Home
+            </ion-button>
+          </ion-buttons>
+        
+          <ion-buttons slot="start">
+            <ion-button (click)="logSleep()">
+              <ion-icon name="bed"></ion-icon>
+              Log Sleep
+            </ion-button>
+          </ion-buttons>
+        
+          <ion-buttons slot="start">
+            <ion-button (click)="viewData()">
+              <ion-icon name="stats-chart"></ion-icon>
+              View Data
+            </ion-button>
+          </ion-buttons>
+        
+          <ion-buttons slot="start">
+            <ion-button (click)="goToSettings()">
+              <ion-icon name="settings"></ion-icon>
+              Settings
+            </ion-button>
+          </ion-buttons>
+  
+          <ion-buttons slot="start">
+            <ion-button (click)="goToGoals()">
+              <ion-icon name="star"></ion-icon>
+              Goals
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+    </div>
+  </ion-content>
