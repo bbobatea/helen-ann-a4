@@ -8,6 +8,7 @@ import { DataViewComponent } from './data-view/data-view.component';
 import { SleepGoalsComponent } from './sleep-goals/sleep-goals.component';
 import { LoginPage } from './login/login.page';
 import { SignupPage } from './signup/signup.page';
+import { DisplayLoggedMoodsPage } from './display-logged-moods/display-logged-moods.page';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'sleep-goals-component', component: SleepGoalsComponent },
   { path: 'login', component: LoginPage },
   { path: 'signup', component: SignupPage },
+  { path: 'display-logged-moods', component: DisplayLoggedMoodsPage },
   {
     path: '',
     redirectTo: 'login',
@@ -48,6 +50,10 @@ const routes: Routes = [
   {
     path: 'signup',
     loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
+  },
+  {
+    path: 'display-logged-moods',
+    loadChildren: () => import('./display-logged-moods/display-logged-moods.module').then( m => m.DisplayLoggedMoodsPageModule)
   },
 ];
 
