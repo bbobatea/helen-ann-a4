@@ -22,10 +22,9 @@ export class DataViewComponent  implements OnInit {
   constructor(private router: Router, private sleepService: SleepService, private navCtrl: NavController) { }
 
 
-  async ngOnInit() {
-	await this.retrieveUsername();
+	ngOnInit() {
 		this.updateData();
-  }
+  	}
 
 
   async retrieveUsername() {
@@ -43,6 +42,7 @@ export class DataViewComponent  implements OnInit {
   }
   
   async updateData() {
+	await this.retrieveUsername();
 	const { value } = await Preferences.get({ key: this.username + " data" });
 	if (value) {
 	  this.overnightData = JSON.parse(value).map((item: any) => {
