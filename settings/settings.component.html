@@ -12,10 +12,20 @@
       <ion-title size="large">Sleep Tracker</ion-title>
     </ion-toolbar>
   </ion-header>
-  <div id="container">
-    <h1> Welcome! Start logging sleep now! </h1>
-  </div>
   
+    <ion-item>
+      <label position="stacked">Username: </label>
+      <ion-input [(ngModel)]="username" disabled></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <label position="stacked">Password: </label>
+      <ion-input type="password" [(ngModel)]="newPassword"></ion-input>
+    </ion-item>
+  
+    <ion-button expand="full" (click)="changePassword()">Change Password</ion-button>
+    <ion-button expand="full" color="danger" (click)="signOut()">Sign Out</ion-button>
+
   <div id="footer-container" class="ion-text-center">
     <ion-footer>
       <ion-toolbar full>
