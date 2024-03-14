@@ -18,23 +18,22 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
   async login() {
-    // Fetch stored credentials from Capacitor Storage
-    const storedUsername = await Preferences.get({ key: 'username' });
-    const storedPassword = await Preferences.get({ key: this.username });
-
-    // Check if entered credentials match stored credentials
-    console.log("username: ", this.username);
-    console.log("password: ", this.password);
-    console.log('stored user: ', storedUsername);
-    console.log('stored-passwrod: ', storedPassword);
-    if (storedPassword.value === this.password) {
-      // Redirect to the home page or dashboard upon successful login
-      console.log('success');
-      await Preferences.set({ key: 'username', value: this.username });
-      this.router.navigate(['/home']);
-    } else {
-      // Display an error message or handle invalid credentials
-      console.error('Invalid credentials. Please try again.');
-    }
+    try {
+      // Fetch stored password using the entered username as the key
+      const storedPassword = await Preferences.get({ key: this.username });
+      
+      // Check if stored password matches the entered password
+      if (storedPassword.value === this.password) {
+          // Set the current username as the active user
+          await Preferences.set({ key: 'activeUser', value: this.username });
+          console.log("active user; ", this.username);
+          // Redirect to the home page or dashboard upon successful login
+          this.router.navigate(['/home']);
+      } else {
+          console.error('Invalid credentials. Please try again.');
+      }
+  } catch (error) {
+      console.error('Error retrieving stored password:', error);
   }
+}
 }
