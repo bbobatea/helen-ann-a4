@@ -1,11 +1,9 @@
 #container {
-    text-align: left;
-    margin-left: 10%;
+    text-align: center;
     position: absolute;
     left: 0;
     right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 20%;
   }
   
   #container strong {
@@ -42,6 +40,10 @@
     bottom: 15%;
     left: 0;
     right: 0;
+    ion-button{
+      --background: #011A5B;
+      color: white;
+    }
   }
 
   body {
@@ -51,7 +53,7 @@
 
   ion-content {
     --background: none;
-    background-image: url(night-time.png);
+    background-image: url(log_sleep_background.png);
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
@@ -60,13 +62,26 @@
   #sleepiness-scale-container {
     text-align: center;
     background-color: #011A5B;
-    border-radius: 25px;
+    border-radius: 15px;
     padding: 5px;
+    ion-range {
+      width: 90%;
+      margin: auto;
+    }
   }
 
-  #sleep-scale-button {
+  #sleep-scale-button-container {
+    position: fixed; 
+    bottom: 20%; 
+    left: 0;
+    right: 0;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-radius: 10px;
+    background-color: #011A5B;
     text-align: center;
   }
+
   .custom-ion-button {
     --border-radius: 15px;
     --background: #011A5B;
@@ -75,6 +90,9 @@
 
   #sleep-scale-button {
     text-align: center;
+    ion-button{
+      background-color: #011A5B;
+    }
   }
 
   .custom-ion-icon {
