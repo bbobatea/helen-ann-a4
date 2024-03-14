@@ -18,18 +18,21 @@ export class SignupPage implements OnInit {
   }
 
   async signUp() {
-    // Check if username already exists
-    const existingUsername = await Preferences.get({ key: this.username });
-    if (existingUsername.value) {
-      console.error('Username already exists. Please choose a different username.');
-      return;
+    try {
+      // Check if username already exists
+      const existingUser = await Preferences.get({ key: this.username });
+      if (existingUser.value) {
+        console.error('Username already exists. Please choose a different username.');
+        return;
+      }
+
+      // Store new user credentials
+      await Preferences.set({ key: this.username, value: this.password });
+
+      // Redirect to login page
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Error signing up:', error);
     }
-
-    // Store new user credentials
-    await Preferences.set({ key: this.username, value: this.password });
-    console.log('saved sign up: ', Preferences);
-
-    // Redirect to login page
-    this.router.navigate(['/login']);
   }
 }
