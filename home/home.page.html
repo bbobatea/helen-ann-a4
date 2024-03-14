@@ -7,15 +7,43 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Sleep Tracker</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <div id="container">
-    <h1> Welcome! Start logging sleep now! </h1>
+  <div id="home-header-text">
+    <h2>Good Evening</h2>
+    <h5>How are you feeling?</h5>
   </div>
-  
+
+  <div id="home-body">
+    <div id="home-body-text">
+      <div id="ion-card-log">
+        <ion-card (click)="logSleep()">
+            <ion-card-header>
+              <ion-card-title>Good Night, User</ion-card-title>
+              <ion-card-subtitle></ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content style="color: white;">
+              log tonight's sleep <ion-icon name="chevron-forward-outline" color="white"></ion-icon>
+            </ion-card-content>
+        </ion-card>
+      </div>
+    <div id="range-button-div">
+    <div id="range-div">
+      <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="1" [max]="7" [(ngModel)]="loggedMood">
+        <ion-icon slot="start" name="happy-outline" class="custom-ion-icon"></ion-icon>
+        <ion-icon slot="end" name="sad-outline" class="custom-ion-icon"></ion-icon>
+      </ion-range>
+    </div>
+    <ion-button (click)="saveLoggedMood()" class="custom-ion-button">Log Mood</ion-button>
+    </div>
+  <div id="view-sleep">
+    <ion-card (click)="viewData()">
+      <ion-card-content style="color: white;">View Sleep Data</ion-card-content>
+    </ion-card>
+  </div>
+
+  </div>
+  </div>
+
   <div id="footer-container" class="ion-text-center">
     <ion-footer>
       <ion-toolbar full>
