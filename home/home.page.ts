@@ -26,7 +26,7 @@ export class HomePage {
 
 	async retrieveUsername() {
 		try {
-		  const { value } = await Preferences.get({ key: 'username' });
+		  const { value } = await Preferences.get({ key: 'activeUser' });
 		  if (value) {
 			this.username = value;
 			console.log("this.username: ", this.username);
