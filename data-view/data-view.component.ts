@@ -65,11 +65,16 @@ export class DataViewComponent  implements OnInit {
   }
 
   async displayLoggedMoods() {
-	const { value : moodValue } = await Preferences.get({ key: this.username + "_loggedMood" });
-    if (moodValue) {
-      this.sleepyData = JSON.parse(moodValue).map((item: any) => {
-        return new StanfordSleepinessData(item.loggedValue, new Date(item.loggedAt));
-      });
+	try {
+		await this.retrieveUsername();
+		const { value : moodValue } = await Preferences.get({ key: this.username + "_loggedMood" });
+		if (moodValue) {
+		this.sleepyData = JSON.parse(moodValue).map((item: any) => {
+			return new StanfordSleepinessData(item.loggedValue, new Date(item.loggedAt));
+		});
+		}
+	} catch (error) {
+		console.error("No data found: ", error);
 	}
   }
 
