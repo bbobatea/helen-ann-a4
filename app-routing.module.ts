@@ -49,6 +49,14 @@ const routes: Routes = [
     path: 'signup',
     loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
   },
+  {
+    path: 'update-pass', 
+    loadChildren: () => import('./update-password/update-password.module').then( m => m.UpdatePasswordModule)
+  },
+  {
+    path: 'delete-account',
+    loadChildren: () => import('./delete-account/delete-account.module').then( m => m.DeleteAccountPageModule)
+  },
 ];
 
 @NgModule({
