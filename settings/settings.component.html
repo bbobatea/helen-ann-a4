@@ -7,25 +7,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Sleep Tracker</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-    <ion-item>
-      <label position="stacked">Username: </label>
-      <ion-input [(ngModel)]="username" disabled></ion-input>
-    </ion-item>
-  
-    <ion-item>
-      <label position="stacked">Password: </label>
-      <ion-input type="password" [(ngModel)]="newPassword"></ion-input>
-    </ion-item>
-  
-    <ion-button expand="full" (click)="changePassword()">Change Password</ion-button>
+  <div id="button-container">
+    <ion-button expand="full" (click)="openChangePasswordModal()">Change Password</ion-button>
     <ion-button expand="full" color="danger" (click)="signOut()">Sign Out</ion-button>
-
+    <ion-button expand="full" color="danger" (click)="delete()">Delete Account</ion-button>
+  </div>
 </ion-content>
 
 <ion-tab-bar slot="bottom">
