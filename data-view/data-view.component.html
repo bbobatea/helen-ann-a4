@@ -7,9 +7,23 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button fill="clear" (click)="displayLoggedMoods()">Logged Moods</ion-button>
-  <ion-list>
-    <ion-item-sliding *ngFor="let data of this.overnightData.slice().reverse()">
+
+<ion-segment [(ngModel)]="selectedTab" (ionChange)="tabChanged()">
+  <ion-segment-button value="overnightData" checked>
+    <ion-label>Logged Sleep</ion-label>
+  </ion-segment-button>
+<ion-segment-button value="loggedMoods">
+  <ion-label>Logged Moods</ion-label>
+</ion-segment-button>
+</ion-segment>
+
+<!-- Display content based on selected tab -->
+<div *ngIf="selectedTab === 'overnightData'">
+<ion-list>
+  <div *ngIf="this.overnightData.length == 0">
+    <p> Nothing logged! </p>
+  </div>
+  <ion-item-sliding *ngFor="let data of overnightData.slice().reverse()">
       <ion-item>
         <ion-card>
           <ion-card-header>
@@ -22,14 +36,29 @@
           </ion-card-content>
         </ion-card>
       </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color="danger" expandable="true" (click)="deleteItem(data)">
-          <ion-icon slot="icon-only" name="trash"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+</div>
 
+<div *ngIf="selectedTab === 'loggedMoods'">
+  <div *ngIf="sleepyData.length == 0">
+    <p> Nothing logged! </p>
+</div>
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of sleepyData.slice().reverse()">
+      <ion-item>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ formatDate(item.loggedAt) }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <div>Mood: {{ item.summaryString() }}</div>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+</div>
   
   <div id="footer-container" class="ion-text-center">
     <ion-footer>
