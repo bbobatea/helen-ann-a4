@@ -25,6 +25,35 @@
   #container a {
     text-decoration: none;
   }
+
+  ion-content {
+    --background: none;
+    background-image: url(night-settings.png);
+  }
+  #button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+
+  #home-header-text{
+    color: white;
+    text-align: left;
+    margin-left: 5%;
+    padding-bottom: 20%;
+  }
+
+  #home-body {
+    background-color: #2E2E2E;
+    height: 65%;
+  }
+  
+  #home-body-text {
+    padding-top: 2%;
+    color: white;
+    //margin-left: 5%;
+  }
   
   #footer-container {
     position: fixed;
