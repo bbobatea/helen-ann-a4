@@ -55,8 +55,6 @@ export class DataViewComponent  implements OnInit {
   }
 
   tabChanged() {
-    // Perform any actions you need when the tab is changed
-    // For example, load data specific to the selected tab
     if (this.selectedTab === 'loggedMoods') {
       this.displayLoggedMoods();
     } else {
