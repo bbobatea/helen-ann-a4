@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { SleepService } from '../services/sleep.service';
-import { SleepData } from '../data/sleep-data';
-import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 import { Router } from '@angular/router';
 import { LocalNotifications } from '@capacitor/local-notifications';
@@ -16,14 +14,32 @@ export class HomePage {
 	stanfordSleepiness: StanfordSleepinessData | null = null;
 	loggedMood: number = 1;
 	username: string = '';
+	currentTime: string | undefined;
+	interval: any;
 
   constructor(private router: Router) {
 	}
 
 	ngOnInit() {
 		this.retrieveUsername();
+		this.updateClock();
+		setInterval(() => {
+		  this.updateClock();
+		}, 1000);
 	}
+	ngOnDestroy() {
+		clearInterval(this.interval);
+	  }
+	
 
+	updateClock() {
+		const date = new Date();
+		const hours = date.getHours().toString().padStart(2, '0');
+		const minutes = date.getMinutes().toString().padStart(2, '0');
+		const seconds = date.getSeconds().toString().padStart(2, '0');
+		const period = date.getHours() >= 12 ? 'PM' : 'AM';
+		this.currentTime = `${hours}:${minutes}:${seconds} ${period}`;
+	}
 	async retrieveUsername() {
 		try {
 		  const { value } = await Preferences.get({ key: 'activeUser' });
