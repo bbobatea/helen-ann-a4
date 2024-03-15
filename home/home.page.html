@@ -10,6 +10,9 @@
   <div id="home-header-text">
     <h2>Good Evening</h2>
     <h5>How are you feeling?</h5>
+    <div class="timer">
+      <h2>Currently {{ currentTime }}</h2>
+    </div>
   </div>
 
   <div id="home-body">
@@ -60,7 +63,7 @@
   </ion-tab-button>
 
   <ion-tab-button tab="settings" (click)="goToSettings()">
-    <ion-icon aria-hidden="true" name="stats-chart"></ion-icon>
+    <ion-icon aria-hidden="true" name="settings"></ion-icon>
     <ion-label>settings</ion-label>
   </ion-tab-button>
 </ion-tab-bar>
