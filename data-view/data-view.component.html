@@ -1,94 +1,96 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Sleep Tracker Data View
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<link href="https://fonts.googleapis.com/css2?family=Actor&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 
 <ion-content [fullscreen]="true">
-
-<ion-segment [(ngModel)]="selectedTab" (ionChange)="tabChanged()">
-  <ion-segment-button value="overnightData" checked>
-    <ion-label>Logged Sleep</ion-label>
-  </ion-segment-button>
-<ion-segment-button value="loggedMoods">
-  <ion-label>Logged Moods</ion-label>
-</ion-segment-button>
-</ion-segment>
-
-<!-- Display content based on selected tab -->
-<div *ngIf="selectedTab === 'overnightData'">
-<ion-list>
-  <div *ngIf="this.overnightData.length == 0">
-    <p> Nothing logged! </p>
-  </div>
-  <ion-item-sliding *ngFor="let data of overnightData.slice().reverse()">
-      <ion-item>
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>{{ data.dateString() }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div>Time slept: {{ data.getSleepStart() }}</div>
-            <div>Time woke: {{ data.getSleepEnd() }}</div>
-            <div>Total sleep: {{ data.summaryString() }}</div>
-          </ion-card-content>
-        </ion-card>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color="danger" expandable="true" (click)="deleteOvernightItem(data)">
-          <ion-icon slot="icon-only" name="trash"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+<div id="header-msg">
+  <h1>Sleep Data</h1>
 </div>
 
-<div *ngIf="selectedTab === 'loggedMoods'">
-  <div *ngIf="sleepyData.length == 0">
-    <p> Nothing logged! </p>
-</div>
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of sleepyData.slice().reverse()">
-      <ion-item>
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>{{ formatDate(item.loggedAt) }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <div>Mood: {{ item.summaryString() }}</div>
-          </ion-card-content>
-        </ion-card>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color="danger" expandable="true" (click)="deleteMoodItem(item)">
-          <ion-icon slot="icon-only" name="trash"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
-</div>
-</ion-content>
-  
-<ion-tab-bar slot="bottom">
-  <ion-tab-button tab="home" (click)="goToHome()">
-    <ion-icon aria-hidden="true" name="home"></ion-icon>
-    <ion-label>Home</ion-label>
-  </ion-tab-button>
+  <ion-segment [(ngModel)]="selectedTab" (ionChange)="tabChanged()">
+    <ion-segment-button value="overnightData" checked>
+      <ion-label>Logged Sleep</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="loggedMoods">
+      <ion-label>Logged Moods</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-  <ion-tab-button tab="logSleep" (click)="logSleep()">
-    <ion-icon aria-hidden="true" name="bed"></ion-icon>
-    <ion-label>log sleep</ion-label>
-  </ion-tab-button>
+  <!-- Display content based on selected tab -->
+  <div *ngIf="selectedTab === 'overnightData'">
+    <div id="chart-div">
+      <canvas id="myChart" width="300" height="200"></canvas>
+    </div>
 
-  <ion-tab-button tab="data" (click)="viewData()">
-    <ion-icon aria-hidden="true" name="stats-chart"></ion-icon>
-    <ion-label>view data</ion-label>
-  </ion-tab-button>
+    <div id="divider-msg"><h3>Sleep Logs</h3></div>
+      <ion-list>
+        <div *ngIf="this.overnightData.length == 0">
+          <p> Nothing logged! </p>
+        </div>
+        <ion-item-sliding *ngFor="let data of overnightData.slice().reverse()">
+          <ion-item id="card-block">
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title>{{ data.dateString() }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div>Time slept: {{ data.getSleepStart() }}</div>
+                <div>Time woke: {{ data.getSleepEnd() }}</div>
+                <div>Total sleep: {{ data.summaryString() }}</div>
+              </ion-card-content>
+            </ion-card>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="danger" expandable="true" (click)="deleteOvernightItem(data)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
 
-  <ion-tab-button tab="settings" (click)="goToSettings()">
-    <ion-icon aria-hidden="true" name="stats-chart"></ion-icon>
-    <ion-label>settings</ion-label>
-  </ion-tab-button>
-</ion-tab-bar>
+    <div *ngIf="selectedTab === 'loggedMoods'">
+      <div *ngIf="sleepyData.length == 0">
+        <p> Nothing logged! </p>
+      </div>
+      <ion-list>
+        <ion-item-sliding *ngFor="let item of sleepyData.slice().reverse()">
+          <ion-item id="card-block">
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title>{{ formatDate(item.loggedAt) }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div>Mood: {{ item.summaryString() }}</div>
+              </ion-card-content>
+            </ion-card>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="danger" expandable="true" (click)="deleteMoodItem(item)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
+  </ion-content>
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" (click)="goToHome()">
+      <ion-icon aria-hidden="true" name="home"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="logSleep" (click)="logSleep()">
+      <ion-icon aria-hidden="true" name="bed"></ion-icon>
+      <ion-label>log sleep</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="data" (click)="viewData()">
+      <ion-icon aria-hidden="true" name="stats-chart"></ion-icon>
+      <ion-label>view data</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="settings" (click)="goToSettings()">
+      <ion-icon aria-hidden="true" name="settings"></ion-icon>
+      <ion-label>settings</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
