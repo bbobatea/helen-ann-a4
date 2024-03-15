@@ -5,6 +5,7 @@ import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 import { NavController } from '@ionic/angular';
 import { Preferences } from '@capacitor/preferences';
+import { Chart } from 'chart.js/auto'
 
 
 @Component({
@@ -21,9 +22,15 @@ export class DataViewComponent  implements OnInit {
   constructor(private router: Router) { }
   
   ngOnInit() {
+
 	this.tabChanged();
     }
 
+ngAfterViewInit() {
+	this.updateData().then(() => {
+		this.drawChart();
+	  });
+	}
 
   async retrieveUsername() {
     try {
@@ -53,6 +60,82 @@ export class DataViewComponent  implements OnInit {
 		console.error("No data found: ", error);
 	}
   }
+
+  drawChart() {
+	const lastSevenDays = this.overnightData.slice(-7);
+
+	console.log(this.overnightData[0].summaryString());
+	const sumString = this.overnightData[0].summaryString();
+	const hours = parseInt(sumString.split(' ')[0]);
+	console.log(this.overnightData[0].getSleepStartSummary());
+
+	const chartData = lastSevenDays.map(item => {
+		const hours = parseInt(item.summaryString().split(' ')[0]);
+		const day = item.getSleepStartSummary();
+		return {x: day, y: hours};
+	})
+	const ctx = document.getElementById('myChart') as HTMLCanvasElement;
+	const myChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+      	labels: chartData.map(item => item.x),
+      	datasets: [{
+        label: 'Most Recent Sleep',
+        data: chartData.map(item => item.y),
+        borderColor: '#481E7F',
+        tension: 0.1
+			}]
+		},
+		options: {
+			plugins: {
+				legend: {
+					labels: {
+						color: 'white',
+						font: {
+							family: 'DM Sans', // Use DM Sans font for legend labels
+							size: 14,
+							weight: 'bold'
+						}
+					}
+				}
+			},
+			scales: {
+				y: {
+					beginAtZero: true,
+					title: {
+						display: true,
+						text: 'Hours',
+						color: 'white',
+						font: {
+							family: 'DM Sans', // Use DM Sans font for y-axis title
+							size: 14,
+							weight: 'bold'
+						}
+					},
+					ticks: {
+						stepSize: 1,
+						color: 'white',
+						font: {
+							family: 'DM Sans', // Use DM Sans font for y-axis ticks
+							size: 12,
+							weight: 'normal'
+						}
+					}
+				},
+				x: {
+					ticks: {
+						color: 'white',
+						font: {
+							family: 'DM Sans', // Use DM Sans font for x-axis ticks
+							size: 12,
+							weight: 'normal'
+						}
+					}
+				}
+			}
+		}
+	});
+}
 
   tabChanged() {
     if (this.selectedTab === 'loggedMoods') {
