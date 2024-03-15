@@ -33,6 +33,59 @@
   }
   
   .custom-width-button {
-    width: 200px; #
+    width: 200px;
+  }
+
+  ion-content {
+    --background: none;
+    //background-image: url(data-view-background.png);
+    background-color: #2E2E2E;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  #card-block {
+    --background: none;
+    background-color: #2E2E2E;
+  }
+
+  ion-card {
+    background-color: #4B4B4B;
+    --color: white;
+    font-family: 'DM Sans', sans-serif;
+    ion-card-title {
+      --color: white;
+      font-family: 'DM Sans', sans-serif;
+    }
+  }
+
+  #chart-div{
+    margin-left: 5%;
+    margin-right: 5%;
+    //background-color: #4B4B4B;
+    border-radius: 15px;
   }
   
+  #divider-msg {
+    color: white;
+    font-family: 'actor', sans-serif;
+    margin-left: 10%;
+    padding-top: 5%;
+  }
+
+  #header-msg {
+    background-color: #2E2E2E;
+    color: white;
+    font-family: 'actor', sans-serif;
+    text-align: center;
+    padding: 3%;
+  }
+
+  ion-segment {
+    font-family: 'DM Sans', sans-serif;
+    ion-segment-button.segment-button-unchecked {
+      background-color: #8E8D8D; 
+      --color: white;
+    }
+  }
