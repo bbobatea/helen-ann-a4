@@ -1,10 +1,10 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
       Sleep Tracker 
     </ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content [fullscreen]="true">
   <div id="home-header-text">
@@ -17,7 +17,7 @@
       <div id="ion-card-log">
         <ion-card (click)="logSleep()">
             <ion-card-header>
-              <ion-card-title>Good Night, {{this.username}}</ion-card-title>
+              <ion-card-title style="color: white;">Good Night, {{this.username}}</ion-card-title>
               <ion-card-subtitle></ion-card-subtitle>
             </ion-card-header>
 
@@ -30,7 +30,7 @@
     <div id="range-button-div">
       <div id="range-div">
         <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="1" [max]="7" [(ngModel)]="loggedMood">
-          <ion-icon slot="start" name="happy-outline" class="custom-ion-icon"></ion-icon>
+          <ion-icon slot="start" name="happy-outline" class="custom-ion-icon" ></ion-icon>
           <ion-icon slot="end" name="sad-outline" class="custom-ion-icon"></ion-icon>
         </ion-range>
       </div>
