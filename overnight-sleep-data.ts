@@ -42,4 +42,10 @@ export class OvernightSleepData extends SleepData {
 		const formattedTime = `${hours}:${minutes}`;
 		return formattedTime;
 	}
+
+	getSleepStartSummary(): String {
+		const date = this.sleepStart.toLocaleDateString('en-US', {weekday: 'short'});
+		return date;
+	}
+
 }
