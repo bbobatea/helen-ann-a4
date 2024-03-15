@@ -11,7 +11,9 @@ export class UpdatePasswordComponent  implements OnInit {
   constructor(private modalController: ModalController) {}
 	username: string = '';
 	newPassword: string = '';
-  ngOnInit() {}
+  ngOnInit() {
+    this.retrieveUsername();
+  }
 
   async retrieveUsername() {
     try {
