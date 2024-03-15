@@ -42,6 +42,7 @@ ion-content {
 }
 
 #home-header-text{
+  padding-top: 10%;
   color: white;
   text-align: left;
   margin-left: 5%;
@@ -72,16 +73,24 @@ ion-content {
 }
 
 #range-div {
-  border-radius: 5%;
+  border-radius: 15px;
   margin-left: 5%;
   margin-right: 5%;
   background-color: #4B4B4B;
   align-items: center;
 
+  ion-button {
+    color: white;
+  }
+
   ion-range {
     width: 90%;
     margin: auto;
   }
+}
+
+#range-div ion-icon {
+  color: white;
 }
 
 #range-button-div{
