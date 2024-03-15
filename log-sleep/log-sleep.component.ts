@@ -4,6 +4,9 @@ import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 import { Preferences } from '@capacitor/preferences';
 import { LogSleepServiceService } from '../log-sleep-service.service';
+import { HourSleptPage } from '../hour-slept/hour-slept.page';
+import { ModalController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-log-sleep',
@@ -19,17 +22,34 @@ export class LogSleepComponent implements OnInit {
   loggedMood: number = 1;
   stanfordSleepiness: StanfordSleepinessData | null = null;
   username: string = '';
+  hours: number = 0;
+  minutes: number = 0;
+  seconds: number = 0;
+  interval: any;
 
-  constructor(private router: Router, private sleepService: LogSleepServiceService) { }
+  constructor(private router: Router, private sleepService: LogSleepServiceService,
+    private modalController: ModalController) { }
 
   ngOnInit() {
     this.retrieveUsername();
   }
 
-  
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (++this.seconds === 60) {
+        this.seconds = 0;
+        if (++this.minutes === 60) {
+          this.minutes = 0;
+          this.hours++;
+        }
+      }
+    }, 1000);
+  }
+
   updateStartTime() {
     this.isStartTimeSet = true;
     this.sleepService.startSleepTimer();
+    this.startTimer();
   }
 
   async retrieveUsername() {
@@ -51,8 +71,9 @@ export class LogSleepComponent implements OnInit {
     this.sleepService.endSleepTimer();
     this.sleepService.logSleepData(this.username);
     this.saveLoggedMood();
-
+    clearInterval(this.interval);
   }
+
 
   async retrieveSleepData() {
     try {
@@ -103,6 +124,20 @@ export class LogSleepComponent implements OnInit {
       console.error('Error saving logged mood: ', error);
     }
   }
+  formatDate(dateTime: number): string {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    };
+    return new Date(dateTime).toLocaleString('en-US', options);
+  }
+
+  timerClock() {
+  }
 
 	goToHome() {
 		this.router.navigate(['/home']);
@@ -110,7 +145,6 @@ export class LogSleepComponent implements OnInit {
 
 	logSleep() {
 	this.router.navigate(['/log-sleep-component']);
-	const currentDateTime = new Date();
 	}
 
 	viewData() {
