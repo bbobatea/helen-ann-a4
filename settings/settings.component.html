@@ -1,16 +1,21 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
       Sleep Tracker Settings
     </ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
+<link href="https://fonts.googleapis.com/css2?family=Actor&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
 
 <ion-content [fullscreen]="true">
+  <div id="container">
+    <h2>Settings</h2>
+  </div>
   <div id="button-container">
-    <ion-button expand="full" (click)="openChangePasswordModal()">Change Password</ion-button>
-    <ion-button expand="full" color="danger" (click)="signOut()">Sign Out</ion-button>
-    <ion-button expand="full" color="danger" (click)="delete()">Delete Account</ion-button>
+    <ion-button (click)="openChangePasswordModal()">Change Password</ion-button>
+    <ion-button (click)="signOut()">Sign Out</ion-button>
+    <ion-button (click)="delete()" class="delete-button" style="color: #FF5959;">Delete Account</ion-button>
   </div>
 </ion-content>
 
