@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
-import { SleepService } from '../services/sleep.service';
 import { Preferences } from '@capacitor/preferences';
+import { LogSleepServiceService } from '../log-sleep-service.service';
 
 @Component({
   selector: 'app-log-sleep',
@@ -20,7 +20,7 @@ export class LogSleepComponent implements OnInit {
   stanfordSleepiness: StanfordSleepinessData | null = null;
   username: string = '';
 
-  constructor(private router: Router, private sleepService: SleepService) { }
+  constructor(private router: Router, private sleepService: LogSleepServiceService) { }
 
   ngOnInit() {
     this.retrieveUsername();
@@ -28,14 +28,13 @@ export class LogSleepComponent implements OnInit {
 
   
   updateStartTime() {
-    this.startTime = new Date();
     this.isStartTimeSet = true;
-    console.log("start: ", this.startTime);
+    this.sleepService.startSleepTimer();
   }
 
   async retrieveUsername() {
     try {
-      const { value } = await Preferences.get({ key: 'username' });
+      const { value } = await Preferences.get({ key: 'activeUser' });
       if (value) {
         this.username = value;
         console.log("this.username: ", this.username);
@@ -48,40 +47,11 @@ export class LogSleepComponent implements OnInit {
   }
 
   async updateEndTime() {
-    this.endTime = new Date();
     this.isStartTimeSet = false;
-    this.logSleepData();
+    this.sleepService.endSleepTimer();
+    this.sleepService.logSleepData(this.username);
     this.saveLoggedMood();
 
-  }
-
-  async logSleepData() {
-    if (this.startTime && this.endTime) {
-      // Create an instance of OvernightSleepData using start and end times
-      this.overnightSleepData = new OvernightSleepData(this.startTime, this.endTime);
-      try {
-        const existingData = await Preferences.get({ key: this.username + " data"});
-        console.log("existing data: ", existingData);
-        let newData: OvernightSleepData[] = [];
-        if (existingData.value) {
-          newData = JSON.parse(existingData.value).map((item: any) => {
-            return new OvernightSleepData(new Date(item.sleepStart), new Date(item.sleepEnd));
-          });
-        }
-        console.log("overnight data: ", this.overnightSleepData)
-        newData.push(this.overnightSleepData);
-        console.log("new data: ", newData);
-        await Preferences.set({
-          key: this.username + " data",
-          value: JSON.stringify(newData),
-        });
-        console.log('Sleep data stored successfully');
-      } catch (error) {
-        console.error('Error storing sleep data:', error);
-      }
-    } else {
-      console.log('Please specify both start and end times.');
-    }
   }
 
   async retrieveSleepData() {
@@ -101,16 +71,7 @@ export class LogSleepComponent implements OnInit {
   }
 
   totalHours(): string {
-    if (this.startTime && this.endTime) {
-      var sleepStart_ms = this.startTime.getTime();
-      var sleepEnd_ms = this.endTime.getTime();
-      var difference_ms = sleepEnd_ms - sleepStart_ms;
-      this.diff = Math.floor(difference_ms / (1000*60*60)) + " hours, " + Math.floor(difference_ms / (1000*60) % 60) + " minutes.";
-      console.log("summary: ", this.diff);
-      return this.diff;
-    } else {
-      return '';
-    }
+    return this.sleepService.totalHours();
   }
 
   async saveLoggedMood() {
