@@ -1,12 +1,20 @@
-
-  <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-title>
-        Log Sleep
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <h1> Good night, {{this.username}}</h1>
+    <h2>
+      <ion-button *ngIf="!isStartTimeSet" (click)="updateStartTime()">
+        Start Logging Sleep Now!
+      </ion-button>
+    </h2>
+    <div *ngIf="isStartTimeSet">
+      <div class="timer">
+        <h2>{{ hours }}: {{ minutes }} : {{ seconds }}</h2>
+      </div>
+    </div>
+      <ion-button *ngIf="isStartTimeSet" (click)="updateEndTime()">
+        End Logging Sleep
+      </ion-button>
+  </div>
     <div id="sleep-scale-button-container">
       <div id="sleepiness-scale-container">
         <ion-range aria-label="Range with ticks" [ticks]="true" [snaps]="true" [min]="1" [max]="7" [(ngModel)]="loggedMood">
@@ -15,16 +23,11 @@
         </ion-range>
       </div>
     
-      <ion-button (click)="saveLoggedMood()" class="custom-ion-button">Log Mood</ion-button>
+    <ion-button (click)="saveLoggedMood()" class="custom-ion-button">Log Mood</ion-button>
     </div>
     <div id="sleep-buttons-container">
-      <ion-button *ngIf="!isStartTimeSet" (click)="updateStartTime()">Start</ion-button>
-      <ion-button *ngIf="isStartTimeSet" (click)="updateEndTime()">End</ion-button>
       <ion-button (click)="totalHours()">Amount of Hours</ion-button>
       <ion-button (click)="retrieveSleepData()">Get data</ion-button>
-    </div>
-    <div id="container">
-      <h2> Good night </h2>
     </div>
   </ion-content>
 
@@ -46,7 +49,7 @@
   </ion-tab-button>
 
   <ion-tab-button tab="settings" (click)="goToSettings()">
-    <ion-icon aria-hidden="true" name="stats-chart"></ion-icon>
+    <ion-icon aria-hidden="true" name="settings"></ion-icon>
     <ion-label>settings</ion-label>
   </ion-tab-button>
 </ion-tab-bar>
