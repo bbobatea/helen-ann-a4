@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkapp=self.webpackChunkapp||[]).push([[9189],{9189:(P,l,a)=>{a.r(l),a.d(l,{DataViewModule:()=>M});var t=a(6814),D=a(849),E=a(95),o=a(6242);let M=(()=>{var n;class u{}return(n=u).\u0275fac=function(s){return new(s||n)},n.\u0275mod=o.oAB({type:n}),n.\u0275inj=o.cJS({imports:[t.ez,E.u5,D.Pc]}),u})()}}]);

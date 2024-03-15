@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkapp=self.webpackChunkapp||[]).push([[4438],{4438:(c,a,l)=>{l.r(a),l.d(a,{LogSleepModule:()=>s});var E=l(6814),M=l(849),_=l(95),n=l(6242);let s=(()=>{var o;class u{}return(o=u).\u0275fac=function(P){return new(P||o)},o.\u0275mod=n.oAB({type:o}),o.\u0275inj=n.cJS({imports:[E.ez,_.u5,M.Pc]}),u})()}}]);
