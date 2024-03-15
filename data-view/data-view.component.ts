@@ -27,7 +27,7 @@ export class DataViewComponent  implements OnInit {
 
   async retrieveUsername() {
     try {
-      const { value } = await Preferences.get({ key: 'username' });
+      const { value } = await Preferences.get({ key: 'activeUser' });
       if (value) {
         this.username = value;
         console.log("this.username: ", this.username);
@@ -88,6 +88,31 @@ export class DataViewComponent  implements OnInit {
     return new Date(dateTime).toLocaleString('en-US', options);
   }
 
+  async deleteOvernightItem(data: any) {
+    // deletes the data upon sliding the card and selecting delete NOT FUNCTIONAL RN (NEED TO IMPLEMENT!)
+    console.log("delete");
+    const index1 = this.overnightData.indexOf(data);
+    if (index1 !== -1) {
+        this.overnightData.splice(index1, 1);
+    }
+	await Preferences.set({
+		key: this.username + " data",
+		value: JSON.stringify(this.overnightData),
+	  });
+  }
+
+  async deleteMoodItem(data: any) {
+    // deletes the data upon sliding the card and selecting delete NOT FUNCTIONAL RN (NEED TO IMPLEMENT!)
+    console.log("delete");
+    const index1 = this.sleepyData.indexOf(data);
+    if (index1 !== -1) {
+        this.sleepyData.splice(index1, 1);
+    }
+	await Preferences.set({
+		key: this.username + "_loggedMood",
+		value: JSON.stringify(this.sleepyData),
+	  });
+  }
 
 	goToHome() {
 		this.router.navigate(['/home']);
