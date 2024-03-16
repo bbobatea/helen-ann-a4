@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Plugins } from '@capacitor/core';
 import { Preferences } from '@capacitor/preferences';
-const { Storage } = Plugins;
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +12,7 @@ export class LoginPage implements OnInit {
   username: string = '';
   password: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private alertController: AlertController) {}
 
   ngOnInit() {
   }
@@ -30,10 +29,20 @@ export class LoginPage implements OnInit {
           // Redirect to the home page or dashboard upon successful login
           this.router.navigate(['/home']);
       } else {
+        await this.presentErrorAlert();
           console.error('Invalid credentials. Please try again.');
       }
-  } catch (error) {
-      console.error('Error retrieving stored password:', error);
+    } catch (error) {
+        console.error('Error retrieving stored password:', error);
+    }
   }
-}
+  async presentErrorAlert() {
+    const alert = await this.alertController.create({
+      header: 'Login Error',
+      message: 'Incorrect username or password',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
 }
