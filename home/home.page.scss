@@ -47,6 +47,8 @@ ion-content {
   text-align: left;
   margin-left: 5%;
   padding-bottom: 20%;
+  font-family: 'DM Sans', sans-serif;
+  // letter-spacing: 1px;
 }
 
 #home-body {
@@ -65,10 +67,14 @@ ion-content {
     ion-card-title {
       font-size: 20px;
       font-weight: normal;
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 1px;
     }
     --background: none;
     background-image: url(log_sleep_banner.png);
     background-position: left;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 1px;
   }
 }
 
@@ -80,7 +86,7 @@ ion-content {
   align-items: center;
 
   ion-button {
-    color: white;
+    letter-spacing: 1px;
   }
 
   ion-range {
@@ -104,14 +110,24 @@ ion-content {
   ion-button {
     --background: transparent;
     margin: auto;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 1px;
   }
 }
 
 #view-sleep {
   color: white;
   text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 1px;
   ion-card {
     text-align: center;
     background-color: #4B4B4B;
   }
+}
+
+.timer {
+  font-family: 'DM Sans', sans-serif;
+  //letter-spacing: 1px;
+  color: white;
 }
