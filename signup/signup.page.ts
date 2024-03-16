@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { Preferences } from '@capacitor/preferences';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signup',
@@ -12,7 +13,7 @@ export class SignupPage implements OnInit {
   username: string = '';
   password: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private alertController: AlertController) {}
 
   ngOnInit() {
   }
@@ -22,6 +23,7 @@ export class SignupPage implements OnInit {
       // Check if username already exists
       const existingUser = await Preferences.get({ key: this.username });
       if (existingUser.value) {
+        await this.presentErrorAlert();
         console.error('Username already exists. Please choose a different username.');
         return;
       }
@@ -34,5 +36,18 @@ export class SignupPage implements OnInit {
     } catch (error) {
       console.error('Error signing up:', error);
     }
+  }
+
+  async login() {
+    this.router.navigate(['/login']);
+  }
+  async presentErrorAlert() {
+    const alert = await this.alertController.create({
+      header: 'Username Taken',
+      message: 'Username is already taken, Please use a different username',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }
