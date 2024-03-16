@@ -22,8 +22,8 @@ export class DataViewComponent  implements OnInit {
   constructor(private router: Router) { }
   
   ngOnInit() {
-
 	this.tabChanged();
+	this.updateData();
     }
 
 ngAfterViewInit() {
@@ -63,7 +63,6 @@ ngAfterViewInit() {
 
   drawChart() {
 	const lastSevenDays = this.overnightData.slice(-7);
-
 	console.log(this.overnightData[0].summaryString());
 	const sumString = this.overnightData[0].summaryString();
 	const hours = parseInt(sumString.split(' ')[0]);
