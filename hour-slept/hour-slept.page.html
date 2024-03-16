@@ -1,0 +1,28 @@
+<ion-content [fullscreen]="true">
+  <div id="home-header-text"> Good Morning {{username}}! <br> </div>
+  <div id="home-body-text">
+      You have slept for a total of: <br>
+  </div>
+  <div id="hour-header-text">
+    {{totalSleep}} <br>
+  </div>
+  <div id="footer-container">
+    <div id="home-body"> <div id="home-body-text">
+       Your Sleep Summary...
+      </div></div>
+    <div id="home-body-text"> About your sleep: <br> <br>  You started sleeping at {{this.formatTime(startTime)}} <br>
+      You woke up at {{this.formatTime(endTime)}} <br> <br>
+      About your mood: <br> <br>
+      You rated your sleep mood of {{sleepMood}}  <br>
+      {{moodSummary.slice(2)}}
+    </div>
+    <div id="view-sleep">
+      <ion-card (click)="viewData()">
+        <ion-card-content style="color: white;">View Sleep Data</ion-card-content>
+      </ion-card>
+      <ion-card (click)="cancel()">
+        <ion-card-content style="color: white;">Close</ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
