@@ -26,6 +26,8 @@ export class LogSleepComponent implements OnInit {
   minutes: number = 0;
   seconds: number = 0;
   interval: any;
+  newMoodData: StanfordSleepinessData[] = [];
+  moodSummary: string = '';
 
   constructor(private router: Router, private sleepService: LogSleepServiceService,
     private modalController: ModalController) { }
@@ -71,6 +73,7 @@ export class LogSleepComponent implements OnInit {
     this.sleepService.endSleepTimer();
     this.sleepService.logSleepData(this.username);
     this.saveLoggedMood();
+    this.hourSlept();
     clearInterval(this.interval);
   }
 
@@ -101,15 +104,16 @@ export class LogSleepComponent implements OnInit {
     try {
       const existingData = await Preferences.get({ key: this.username + "_loggedMood"});
       console.log("existing data: ", existingData);
-      let newMoodData: StanfordSleepinessData[] = [];
       if (existingData.value) {
-        newMoodData = JSON.parse(existingData.value).map((item: any) => {
+        this.newMoodData = JSON.parse(existingData.value).map((item: any) => {
           return new StanfordSleepinessData(item.loggedValue, new Date(item.loggedAt));
         });
       }
-      newMoodData.push(this.stanfordSleepiness);
-      console.log("updated mood data: ", newMoodData);
-      await Preferences.set({ key: this.username + '_loggedMood', value: JSON.stringify(newMoodData) });
+      this.moodSummary = this.stanfordSleepiness.summaryString();
+      console.log("mood summary here: ", this.moodSummary);
+      this.newMoodData.push(this.stanfordSleepiness);
+      console.log("updated mood data: ", this.newMoodData);
+      await Preferences.set({ key: this.username + '_loggedMood', value: JSON.stringify(this.newMoodData) });
       console.log('Logged mood saved');
       
       // Log retrieved mood data after saving
@@ -136,7 +140,19 @@ export class LogSleepComponent implements OnInit {
     return new Date(dateTime).toLocaleString('en-US', options);
   }
 
-  timerClock() {
+  async hourSlept() {
+    const modal = await this.modalController.create({
+      component: HourSleptPage,
+      componentProps: {
+        username: this.username, 
+        totalSleep: this.totalHours(),
+        startTime: this.sleepService.getStartTime(),
+        endTime: this.sleepService.getEndTime(),
+        sleepMood: this.loggedMood,
+        moodSummary: this.stanfordSleepiness?.summaryString()
+      },
+    });
+    return await modal.present();
   }
 
 	goToHome() {
