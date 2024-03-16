@@ -1,25 +1,21 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>signup</ion-title>
-  </ion-toolbar>
-</ion-header>
+<link href="https://fonts.googleapis.com/css2?family=Actor&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">signup</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
-
-<ion-content>
-  <ion-item>
-    <label position="floating">Username: </label>
-    <ion-input type="text" [(ngModel)]="username"></ion-input>
-  </ion-item>
-  <ion-item>
-    <label position="floating">Password: </label>
-    <ion-input type="password" [(ngModel)]="password"></ion-input>
-  </ion-item>
-  <ion-button expand="block" (click)="signUp()">Sign Up</ion-button>
-</ion-content>
+  <ion-content [fullscreen]="true">
+    <div id="title-login">
+        <h1>Sign Up</h1>
+    </div>
+    <div id="user-input">
+      <ion-item lines="none" class="transparent">
+        <label position="floating">Username: </label>
+        <ion-input type="text" [(ngModel)]="username"></ion-input>
+      </ion-item>
+      <div id= "spacer"> hi </div>
+      <ion-item lines="none" class="transparent">
+        <label position="floating">Password: </label>
+        <ion-input type="password" [(ngModel)]="password"></ion-input>
+      </ion-item>
+      <div id="button-align">
+        <ion-button (click)="signUp()">Sign Up</ion-button>
+      </div>  
+    </div>
+  </ion-content>
