@@ -12,6 +12,8 @@ export class LogSleepServiceService {
   private endTimeSubject: BehaviorSubject<Date | null> = new BehaviorSubject<Date | null>(null);
   overnightSleepData: OvernightSleepData | null = null;
   diff: string | null = null;
+  startTime!: Date | null;
+  endTime!: Date | null;
   
   constructor() { }
 
@@ -23,12 +25,12 @@ export class LogSleepServiceService {
     this.endTimeSubject.next(new Date());
   }
 
-  getStartTime(): Observable<Date | null> {
-    return this.startTimeSubject.asObservable();
+  getStartTime(): Date | null {
+    return this.startTime;
   }
 
-  getEndTime(): Observable<Date | null> {
-    return this.endTimeSubject.asObservable();
+  getEndTime(): Date | null {
+    return this.endTime;
   }
 
   clearTimers(): void {
@@ -37,10 +39,10 @@ export class LogSleepServiceService {
   }
 
   async logSleepData(username : string): Promise<void> {
-    const startTime = this.startTimeSubject.getValue();
-    const endTime = this.endTimeSubject.getValue();
-    if (startTime && endTime) {
-      this.overnightSleepData = new OvernightSleepData(startTime, endTime);
+    this.startTime = this.startTimeSubject.getValue();
+    this.endTime = this.endTimeSubject.getValue();
+    if (this.startTime && this.endTime) {
+      this.overnightSleepData = new OvernightSleepData(this.startTime, this.endTime);
       try {
         const existingData = await Preferences.get({ key: username + " data"});
         console.log("existing data: ", existingData);
