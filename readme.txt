@@ -26,6 +26,12 @@ These are the sources we consulted:
   https://www.w3schools.com/js/tryit.asp?filename=trychartjs_lines
   https://www.freecodecamp.org/news/how-to-make-bar-and-line-charts-using-chartjs-in-angular/
   https://www.chartjs.org/docs/latest/
+  https://ionicframework.com/docs/angular/navigation
+  https://www.w3schools.com/howto/howto_css_login_form.asp
+  https://forum.ionicframework.com/t/ionic-vue-capacitor-preferences/231157
+  https://capacitorjs.com/docs/apis/preferences
+  https://stackoverflow.com/questions/47897118/how-to-make-clock-in-typescript#:~:text=calling%20print()%20.-,function%20clockRun()%20%7B%20timeGenerate()%3B%20let%20newClock%20%3D%20new%20Clock,example%20(keep%20it%20simple!)
+  https://www.dhiwise.com/post/simplify-event-timing-and-scheduling-with-typescript-timer
 
 4. What classmates or other individuals did you consult as part of this assignment? What did you discuss?
 
@@ -68,8 +74,10 @@ We chose backing up logged data as a feature. Users create/login to an account t
 We did not use a native device resource.
 
 13. If you backed up logged data, where does it back up to?
-
+It backs up to the preferences local storage from capacitor which the user must install on their terminal:
+npm install @capacitor/preferences
+npx cap sync
 
 14. How does your app implement or follow principles of good mobile design?
 
-Our app implements and follows priciples of good mobile design as 
+Our app implements and follows priciples of good mobile design such as displaying a error login message if user tries to login with a nonexisting account or incorrect login credentials. User is also able to view their data after logging their sleep and seeing their summary and amount of hours they slept for. A timer is also started when user starts to log sleep and a clock is displayed on the home page so user can see how late or early it currently is. User is also able to log mood at any time. In case user makes a mistake when logging sleep or mood, they are able to delete that data and the app saves it. User is also able to change password of their account or delete their account in which they are warned that all data will be lost and cannot be recovered.
