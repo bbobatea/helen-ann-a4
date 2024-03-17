@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SleepService } from '../services/sleep.service';
@@ -119,6 +120,9 @@ ngAfterViewInit() {
 							size: 12,
 							weight: 'normal'
 						}
+					},
+					grid: {
+						color: 'black'
 					}
 				},
 				x: {
@@ -129,6 +133,9 @@ ngAfterViewInit() {
 							size: 12,
 							weight: 'normal'
 						}
+					},
+					grid: {
+						color: 'black'
 					}
 				}
 			}
