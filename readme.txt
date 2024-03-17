@@ -5,8 +5,8 @@ anntb@uci.edu
 57763358
 
 Helen Chau
--
--
+chauh4@uci.edu
+84334175
 
 1. How many assignment points do you believe you completed (replace the *'s with your numbers)?
 
