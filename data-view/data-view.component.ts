@@ -134,9 +134,9 @@ ngAfterViewInit() {
 							weight: 'normal'
 						}
 					},
-					grid: {
-						color: 'black'
-					}
+					// grid: {
+					// 	color: 'black'
+					// }
 				}
 			}
 		}
