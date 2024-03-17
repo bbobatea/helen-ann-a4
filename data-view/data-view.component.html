@@ -59,7 +59,8 @@
                 <ion-card-title>{{ formatDate(item.loggedAt) }}</ion-card-title>
               </ion-card-header>
               <ion-card-content>
-                <div>Mood: {{ item.summaryString() }}</div>
+                <div>Mood Rate: {{ item.summaryString().slice(0, 1) }}</div>
+                <div>About your mood: {{ item.summaryString().slice(2)}}</div>
               </ion-card-content>
             </ion-card>
           </ion-item>
