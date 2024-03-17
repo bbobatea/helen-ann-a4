@@ -2,12 +2,14 @@
 <ion-content [fullscreen]="true">
   <div id="container">
     <h1> Good night, {{this.username}}</h1>
+  </div>
+  <div id="sleep-buttons-container">
     <h2>
       <ion-button *ngIf="!isStartTimeSet" (click)="updateStartTime()">
-        Start Logging Sleep Now!
+        Start Logging Sleep
       </ion-button>
     </h2>
-    <div *ngIf="isStartTimeSet">
+    <div *ngIf="isStartTimeSet" id="timer-place">
       <div class="timer">
         <h2>{{ hours }}: {{ minutes }} : {{ seconds }}</h2>
       </div>
@@ -26,10 +28,10 @@
     
     <ion-button (click)="saveLoggedMood()" class="custom-ion-button">Log Mood</ion-button>
     </div>
-    <div id="sleep-buttons-container">
+    <!-- <div id="sleep-buttons-container">
       <ion-button (click)="totalHours()">Amount of Hours</ion-button>
       <ion-button (click)="retrieveSleepData()">Get data</ion-button>
-    </div>
+    </div> -->
   </ion-content>
 
 
