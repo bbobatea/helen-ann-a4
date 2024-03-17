@@ -1,5 +1,13 @@
 --Readme document for *author(s)*, *email(s)*, *UCI id(s)*--
 
+Ann Bui
+anntb@uci.edu
+57763358
+
+Helen Chau
+-
+-
+
 1. How many assignment points do you believe you completed (replace the *'s with your numbers)?
 
 */20
