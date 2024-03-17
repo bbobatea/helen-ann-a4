@@ -20,9 +20,9 @@
       <canvas id="myChart" width="300" height="200"></canvas>
     </div>
 
-    <div id="divider-msg"><h3>Sleep Logs</h3></div>
+    <div *ngIf="this.overnightData.length > 0" id="divider-msg"><h3>Sleep Logs</h3></div>
       <ion-list>
-        <div *ngIf="this.overnightData.length == 0">
+        <div *ngIf="this.overnightData.length == 0" id="empty-page">
           <p> Nothing logged! </p>
         </div>
         <ion-item-sliding *ngFor="let data of overnightData.slice().reverse()">
@@ -81,16 +81,16 @@
 
     <ion-tab-button tab="logSleep" (click)="logSleep()">
       <ion-icon aria-hidden="true" name="bed"></ion-icon>
-      <ion-label>log sleep</ion-label>
+      <ion-label>Log Sleep</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="data" (click)="viewData()">
       <ion-icon aria-hidden="true" name="stats-chart"></ion-icon>
-      <ion-label>view data</ion-label>
+      <ion-label>View Data</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="settings" (click)="goToSettings()">
       <ion-icon aria-hidden="true" name="settings"></ion-icon>
-      <ion-label>settings</ion-label>
+      <ion-label>Settings</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
